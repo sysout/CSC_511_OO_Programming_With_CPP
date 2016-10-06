@@ -38,7 +38,35 @@ Sun  Mon  Tue  Wed  Thu  Fri  Sat
 (output continues for all 6 months)
 */
 
-// January, February, March, April, May, June, July, August, September, October, November, December
+const string getMonth(int month){
+  switch (month) {
+    case 0:
+      return "January";
+    case 1:
+      return "February";
+    case 2:
+      return "March";
+    case 3:
+      return "April";
+    case 4:
+      return "May";
+    case 5:
+      return "June";
+    case 6:
+      return "July";
+    case 7:
+      return "August";
+    case 8:
+      return "September";
+    case 9:
+      return "October";
+    case 10:
+      return "November";
+    case 11:
+      return "December";
+  }
+  return "";
+}
 
 bool isleap(int year){
   // In the modern calendar, years that are divisible by 4 are leap years,
@@ -72,7 +100,7 @@ int daysinmonth(int year, int month){
       case 11:
           return 30;
     }
-    return -1;
+    return INT_MIN;
 }
 
 /*
@@ -106,35 +134,73 @@ int weekday(int year, int month, int day){
 
 void print_month(int year, int month, int day){
   string ss[7]={"Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"};
-
-  // cout<<year<<" "<<month<<" "<<ss[day]<<endl;
+  cout<<endl<<getMonth(month)<<" "<<year<<endl<<endl;
+  cout<<"Sun  Mon  Tue  Wed  Thu  Fri  Sat"<<endl;
+  for (size_t i = 0; i < day; i++) {
+    cout<<"     ";
+  }
+  int total(daysinmonth(year, month));
+  for (size_t i = 1; i <= total; i++){
+    cout.width(3);
+    cout << right << i << "  ";
+    if((i+day)%7==0 && i<total){
+      cout<<endl;
+    }
+  }
+  cout<<endl;
 }
 
 /*
 */
 void print_calender(int year, int month, int duration){
+  cout<<"  ***    CALENDAR for "<<year<<"   ***"<<endl;
   int start_weekday = weekday(year, month, 1);
   int days_passed(0);
   for (size_t i = 0; i < duration; i++) {
     int cur_year = year+(month+i)/12;
     int cur_month = (month+i)%12;
     int cur_weekday = (start_weekday+days_passed)%7;
-    cout<<cur_year<<" "<<cur_month<<" "<<cur_weekday<<" days passed "<<days_passed<<endl;
+    // cout<<cur_year<<" "<<cur_month<<" "<<cur_weekday<<" days passed "<<days_passed<<endl;
     print_month(cur_year, cur_month, cur_weekday);
     days_passed+=daysinmonth(cur_year, cur_month);
   }
 }
 
 int main(int argc, char const *argv[]) {
-  /* code */
-  cout<<" 0001, January (Mo) "<<weekday(1, 0, 1) <<endl;
-  cout<<" 0002, January (Tu) "<<weekday(2, 0, 1) <<endl;
-  cout<<" 0003, January (We) "<<weekday(3, 0, 1) <<endl;
-  cout<<" 0004, January (Th) "<<weekday(4, 0, 1) <<endl;
-  cout<<" 0005, January (Sa) "<<weekday(5, 0, 1) <<endl;
-  cout<<" 2016, January (Fr) "<<weekday(2016, 0, 1) <<endl;
-  cout<<" 2016, September (Th)"<<weekday(2016, 8, 1) <<endl;
-  cout<<" 2016, October (Sa) "<<weekday(2016, 9, 1) <<endl;
-  print_calender(2016,7,5);
+  // cout<<" 0001, January (Mo) "<<weekday(1, 0, 1) <<endl;
+  // cout<<" 0002, January (Tu) "<<weekday(2, 0, 1) <<endl;
+  // cout<<" 0003, January (We) "<<weekday(3, 0, 1) <<endl;
+  // cout<<" 0004, January (Th) "<<weekday(4, 0, 1) <<endl;
+  // cout<<" 0005, January (Sa) "<<weekday(5, 0, 1) <<endl;
+  // cout<<" 2016, January (Fr) "<<weekday(2016, 0, 1) <<endl;
+  // cout<<" 2016, September (Th)"<<weekday(2016, 8, 1) <<endl;
+  // cout<<" 2016, October (Sa) "<<weekday(2016, 9, 1) <<endl;
+  int year(INT_MIN), month(INT_MIN), duration(INT_MIN);
+  string month_str;
+  cout<<"Please enter year of the beginning month:- ";
+  cin>>year;
+  if(year<0){
+    cout<<"Non-negative integer required";
+    return -1;
+  }
+  cout<<"Please enter month of the beginning month:- ";
+  cin>>month_str;
+  for (size_t i = 0; i < 12; i++) {
+    if(getMonth(i)==month_str){
+      month=i;
+      break;
+    }
+  }
+  if(month==INT_MIN){
+    cout<<"Month not recognized";
+    return -1;
+  }
+  cout<<"Please enter the number of months to print:- ";
+  cin>>duration;
+  if(duration<=0){
+    cout<<"Positive integer required";
+    return -1;
+  }
+  print_calender(year,month,duration);
   return 0;
 }
