@@ -180,7 +180,7 @@ int main(int argc, char const *argv[]) {
   cout<<"Please enter year of the beginning month:- ";
   cin>>year;
   if(year<0){
-    cout<<"Non-negative integer required";
+    cout<<"Non-negative integer required"<<endl;
     return -1;
   }
   cout<<"Please enter month of the beginning month:- ";
@@ -192,13 +192,13 @@ int main(int argc, char const *argv[]) {
     }
   }
   if(month==INT_MIN){
-    cout<<"Month not recognized";
+    cout<<"Month not recognized"<<endl;
     return -1;
   }
   cout<<"Please enter the number of months to print:- ";
   cin>>duration;
   if(duration<=0){
-    cout<<"Positive integer required";
+    cout<<"Positive integer required"<<endl;
     return -1;
   }
   print_calender(year,month,duration);
